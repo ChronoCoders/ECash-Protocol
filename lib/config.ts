@@ -95,8 +95,17 @@ class ConfigManager {
       if (!isNaN(envChainId)) return envChainId
     }
 
-    // Default to localhost for development
-    return 31337
+    // Try to detect from browser first, then default to localhost
+    if (typeof window !== 'undefined' && window.ethereum) {
+      try {
+        // This will be updated when wallet connects
+        return 31337 // Default to localhost for development
+      } catch {
+        return 31337
+      }
+    }
+    
+    return 31337 // Default to localhost for development
   }
 
   private initializeNetworks(): Record<number, NetworkConfig> {
@@ -192,6 +201,11 @@ class ConfigManager {
     const envKey = `NEXT_PUBLIC_RPC_URL_${chainId}`
     if (process.env[envKey]) {
       return process.env[envKey]!
+    }
+
+    // Check for general RPC URL env var
+    if (process.env.NEXT_PUBLIC_RPC_URL) {
+      return process.env.NEXT_PUBLIC_RPC_URL
     }
 
     // Default RPC URLs

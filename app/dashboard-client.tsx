@@ -148,7 +148,18 @@ export default function DashboardClient() {
       }
 
       const signer = await provider.getSigner()
-      const network = await provider.getNetwork()
+      
+      // Get network with better error handling
+      let network
+      try {
+        network = await provider.getNetwork()
+      } catch (networkError: any) {
+        if (networkError.message.includes("could not detect network")) {
+          throw new Error("Could not fetch chain ID. Is your RPC URL correct? Make sure Hardhat node is running on http://localhost:8545")
+        }
+        throw networkError
+      }
+      
       const account = accounts[0]
 
       // Validate account format
@@ -157,7 +168,13 @@ export default function DashboardClient() {
       }
 
       const chainId = Number(network.chainId)
-      const networkMismatch = chainId !== config.chainId
+      
+      // Update config manager with detected chain ID
+      if (configManager.isNetworkSupported(chainId)) {
+        configManager.updateChainId(chainId)
+      }
+      
+      const networkMismatch = !configManager.isNetworkSupported(chainId)
 
       setState(prev => ({
         ...prev,
@@ -175,8 +192,10 @@ export default function DashboardClient() {
       toast.success(`Connected to ${account.slice(0, 6)}...${account.slice(-4)}`)
 
       if (networkMismatch) {
-        const targetNetwork = getNetworkInfo(config.chainId)
-        toast.warning(`Please switch to ${targetNetwork.name}`)
+        toast.warning(`Unsupported network (Chain ID: ${chainId}). Please switch to a supported network.`)
+      } else {
+        const currentNetwork = getNetworkInfo(chainId)
+        toast.success(`Connected to ${currentNetwork.name}`)
       }
 
     } catch (error: any) {
@@ -197,7 +216,7 @@ export default function DashboardClient() {
         connectionAttempts.current = 0
       }
     }
-  }, [checkProvider, handleError, state.isConnecting, config.chainId])
+  }, [checkProvider, handleError, state.isConnecting])
 
   // Safe disconnect
   const disconnectWallet = useCallback(() => {
