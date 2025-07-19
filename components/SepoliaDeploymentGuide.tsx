@@ -44,10 +44,11 @@ export default function SepoliaDeploymentGuide() {
 NEXT_PUBLIC_CHAIN_ID=11155111
 NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID
 
-# Make sure you have these for deployment:
+# For deployment (keep these secure!)
 PRIVATE_KEY=your_private_key_here
-ETHERSCAN_API_KEY=your_etherscan_api_key
-NEXT_PUBLIC_INFURA_PROJECT_ID=your_infura_project_id`
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+INFURA_PROJECT_ID=your_infura_project_id_here
+
 
   const deploymentCommands = `# 1. Install dependencies
 npm install

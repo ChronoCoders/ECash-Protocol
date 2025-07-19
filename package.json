@@ -16,7 +16,9 @@
     "deploy": "hardhat run scripts/deploy.ts",
     "deploy:localhost": "hardhat run scripts/deploy.ts --network localhost",
     "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "deploy:sepolia-custom": "hardhat run scripts/deploy-sepolia.ts --network sepolia",
     "verify": "hardhat run scripts/verify.ts",
+    "verify:sepolia": "hardhat run scripts/verify.ts --network sepolia",
     "setup:testnet": "hardhat run scripts/setup-testnet.ts",
     "node": "hardhat node",
     "clean": "hardhat clean"

@@ -50,9 +50,12 @@ const config: HardhatUserConfig = {
       chainId: 1,
     },
     sepolia: {
-      url: process.env.GOERLI_RPC_URL?.replace("goerli", "sepolia") || "",
+      url: process.env.SEPOLIA_RPC_URL || `https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 11155111,
+      timeout: 60000,
+      gas: "auto",
+      gasPrice: "auto",
     },
   },
   gasReporter: {
