@@ -16,7 +16,7 @@ import ScenarioRunner from "../components/ScenarioRunner"
 import FeatureFlags from "../components/FeatureFlags"
 
 // Import configuration
-import { config, getNetworkInfo, isContractsDeployed } from "../lib/config"
+import { config, configManager, getNetworkInfo, isContractsDeployed } from "../lib/config"
 
 interface ProtocolStatus {
   currentPrice: string
