@@ -420,7 +420,71 @@ class ConfigManager {
 }
 
 // Create singleton instance
-const configManager = ConfigManager.getInstance()
+let configManager: ConfigManager
+
+try {
+  configManager = ConfigManager.getInstance()
+} catch (error) {
+  console.error('Failed to initialize ConfigManager:', error)
+  // Create a fallback dummy ConfigManager to prevent ReferenceError
+  configManager = {
+    chainId: 31337,
+    currentNetwork: {
+      name: "Localhost",
+      symbol: "ETH",
+      explorer: "",
+      rpcUrl: "http://localhost:8545",
+      testnet: true,
+      chainId: 31337,
+      blockTime: 2,
+      confirmations: 1
+    },
+    contracts: {
+      ecashToken: "",
+      oracleAggregator: "",
+      stabilizationController: "",
+      governance: "",
+      treasury: "",
+      testHelper: ""
+    },
+    features: {
+      stressTesting: false,
+      scenarioTesting: false,
+      realTimeMonitoring: true,
+      debugMode: true,
+      multiNetwork: false,
+      advancedCharts: false,
+      emergencyControls: false,
+      analyticsTracking: false
+    },
+    dashboard: {
+      refreshInterval: 5000,
+      maxChartDataPoints: 50,
+      defaultGasLimit: 500000,
+      autoRefresh: true,
+      theme: 'light' as const,
+      notifications: true
+    },
+    security: {
+      maxRebaseFrequency: 43200,
+      circuitBreakerThreshold: 20,
+      oracleTimeout: 3600,
+      emergencyContacts: [],
+      allowedOrigins: []
+    },
+    getNetworkConfig: () => undefined,
+    getContractAddresses: () => undefined,
+    isNetworkSupported: () => false,
+    isContractsDeployed: () => false,
+    validateContractAddress: () => false,
+    updateChainId: () => { throw new Error('ConfigManager not properly initialized') },
+    getExplorerUrl: () => "",
+    getProviderConfig: () => ({ chainId: 31337, rpcUrl: "http://localhost:8545", name: "Localhost" }),
+    getSupportedNetworks: () => [],
+    isFeatureEnabled: () => false,
+    getDebugInfo: () => ({ error: "ConfigManager not properly initialized" })
+  } as ConfigManager
+}
 
 // Export legacy config object for backward compatibility
 export const config = {
