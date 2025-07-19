@@ -47,10 +47,10 @@ NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID
 # For deployment (keep these secure!)
 PRIVATE_KEY=your_private_key_here
 ETHERSCAN_API_KEY=your_etherscan_api_key_here
-INFURA_PROJECT_ID=your_infura_project_id_here
+INFURA_PROJECT_ID=your_infura_project_id_here`
 
 
-  const deploymentCommands = `# 1. Install dependencies
+  const deploymentCommands = \`# 1. Install dependencies
 npm install
 
 # 2. Compile contracts
@@ -87,7 +87,7 @@ npm run setup:testnet --network sepolia`
         {deploymentSteps.map((step, index) => (
           <div key={index} className="flex items-start space-x-4">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              className={\`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                 index <= currentStep ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-600"
               }`}
             >
