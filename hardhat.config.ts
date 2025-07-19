@@ -20,6 +20,10 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       chainId: 31337,
+      mining: {
+        auto: true,
+        interval: 1000
+      },
       accounts: {
         mnemonic: "test test test test test test test test test test test junk",
         count: 20,
@@ -28,6 +32,11 @@ const config: HardhatUserConfig = {
     localhost: {
       url: "http://127.0.0.1:8545",
       chainId: 31337,
+      timeout: 60000,
+      accounts: {
+        mnemonic: "test test test test test test test test test test test junk",
+        count: 20,
+      },
     },
     goerli: {
       url: process.env.GOERLI_RPC_URL || "",

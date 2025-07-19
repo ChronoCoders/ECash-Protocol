@@ -72,8 +72,7 @@ export default function NetworkSwitcher({
 
       // For localhost, provide specific instructions
       if (targetChainId === 31337) {
-        toast.info("To connect to localhost, please manually add the network in MetaMask:")
-        toast.info("Network Name: Localhost, RPC URL: http://localhost:8545, Chain ID: 31337")
+        toast.info("Adding localhost network to MetaMask...")
         
         // Try to add the network first
         try {
@@ -82,7 +81,7 @@ export default function NetworkSwitcher({
             params: [{
               chainId: '0x7a69', // 31337 in hex
               chainName: 'Localhost',
-              rpcUrls: ['http://localhost:8545'],
+              rpcUrls: ['http://127.0.0.1:8545'],
               nativeCurrency: {
                 name: 'Ethereum',
                 symbol: 'ETH',
