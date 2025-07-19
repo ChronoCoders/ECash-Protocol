@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { toast } from "react-toastify"
 import { ethers } from "ethers"
+import { toast } from "react-toastify"
 
 interface ScenarioRunnerProps {
   contracts: any

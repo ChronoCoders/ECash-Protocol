@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "react-toastify"
 import { configManager, getNetworkInfo, type ContractAddresses } from "@/lib/config"
+import { toast } from "react-toastify"
 
 interface DeploymentManagerProps {
   provider: ethers.BrowserProvider | null

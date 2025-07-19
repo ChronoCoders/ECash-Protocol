@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "react-toastify"
-import { ToastContainer } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 // Import fixed components
@@ -722,6 +721,7 @@ export default function DashboardClient() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme="light"
       />
     </div>
   )

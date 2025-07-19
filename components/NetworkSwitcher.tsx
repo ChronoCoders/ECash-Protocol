@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect } from "react"
 import { ethers } from "ethers"
-import { toast } from "react-toastify"
 import { configManager, getNetworkInfo, switchNetwork, type NetworkConfig } from "@/lib/config"
+import { toast } from "react-toastify"
 
 interface NetworkSwitcherProps {
   provider: ethers.BrowserProvider | null

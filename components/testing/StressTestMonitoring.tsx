@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "react-toastify"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
+import { toast } from "react-toastify"
 
 interface StressTestProps {
   contracts: any
