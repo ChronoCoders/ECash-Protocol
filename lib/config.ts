@@ -11,7 +11,16 @@ const validateEnvironment = () => {
   }
 }
 
-validateEnvironment()
+const _initialEnvValidation = () => {
+  const required = ['NEXT_PUBLIC_CHAIN_ID']
+  const missing = required.filter(key => !process.env[key] && typeof window === 'undefined')
+  
+  if (missing.length > 0) {
+    console.warn(`Missing environment variables: ${missing.join(', ')}`)
+  }
+}
+
+_initialEnvValidation()
 
 // Network configuration with comprehensive validation
 export interface NetworkConfig {
