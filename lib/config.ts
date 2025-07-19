@@ -95,20 +95,8 @@ class ConfigManager {
       if (!isNaN(envChainId)) return envChainId
     }
 
-    // Browser detection
-    if (typeof window !== "undefined" && window.ethereum) {
-      try {
-        // Try to get chainId from ethereum provider
-        if (window.ethereum.chainId) {
-          return Number.parseInt(window.ethereum.chainId, 16)
-        }
-      } catch (error) {
-        console.warn('Failed to detect chain ID from browser:', error)
-      }
-    }
-
-    // Default to Sepolia for production safety
-    return 11155111
+    // Default to localhost for development
+    return 31337
   }
 
   private initializeNetworks(): Record<number, NetworkConfig> {

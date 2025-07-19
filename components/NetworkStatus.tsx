@@ -71,12 +71,12 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
 
   return (
     <div
-      className={`rounded-lg p-4 ${isCorrectNetwork ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`}
+      className={`rounded-lg p-4 ${isCorrectNetwork ? "bg-green-50 border border-green-200" : "bg-yellow-50 border border-yellow-200"}`}
     >
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-medium text-gray-900">Network Status</h3>
         <div
-          className={`px-2 py-1 rounded text-xs ${isCorrectNetwork ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+          className={`px-3 py-1 rounded-full text-xs font-medium ${isCorrectNetwork ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
         >
           {isCorrectNetwork ? "Connected" : "Wrong Network"}
         </div>
@@ -85,12 +85,16 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">Network:</span>
-          <span className="font-medium">{networkInfo.name}</span>
+          <span className={`font-medium ${isCorrectNetwork ? "text-gray-900" : "text-yellow-700"}`}>
+            {networkInfo.name}
+          </span>
         </div>
 
         <div className="flex justify-between">
           <span className="text-gray-600">Chain ID:</span>
-          <span className="font-medium">{networkInfo.chainId}</span>
+          <span className={`font-medium ${isCorrectNetwork ? "text-gray-900" : "text-yellow-700"}`}>
+            {networkInfo.chainId}
+          </span>
         </div>
 
         {account && (
@@ -114,8 +118,18 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
       </div>
 
       {!isCorrectNetwork && (
-        <div className="mt-3 p-2 bg-red-100 rounded text-sm text-red-800">
-          Please switch to {getNetworkInfo(config.chainId).name} (Chain ID: {config.chainId})
+        <div className="mt-3 p-3 bg-yellow-100 rounded-lg">
+          <div className="text-sm text-yellow-800 font-medium mb-2">
+            ⚠️ Please switch to {getNetworkInfo(config.chainId).name}
+          </div>
+          <div className="text-xs text-yellow-700">
+            Expected Chain ID: {config.chainId}
+          </div>
+          {config.chainId === 31337 && (
+            <div className="text-xs text-yellow-700 mt-1">
+              💡 Make sure Hardhat node is running: <code className="bg-yellow-200 px-1 rounded">npx hardhat node</code>
+            </div>
+          )}
         </div>
       )}
     </div>

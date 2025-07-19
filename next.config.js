@@ -21,6 +21,15 @@ const nextConfig = {
       net: false,
       tls: false,
     }
+    
+    // Add support for local development
+    if (process.env.NODE_ENV === 'development') {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      }
+    }
+    
     return config
   },
 }

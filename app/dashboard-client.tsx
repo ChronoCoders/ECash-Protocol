@@ -326,8 +326,16 @@ export default function DashboardClient() {
 
         setState(prev => ({ ...prev, chainId, networkMismatch }))
 
+        // Update config manager with new chain ID
+        if (configManager.isNetworkSupported(chainId)) {
+          configManager.updateChainId(chainId)
+        }
+
         if (!networkMismatch && isContractsDeployed(chainId)) {
           await initializeContracts()
+        } else if (networkMismatch) {
+          // Clear contracts if on wrong network
+          setState(prev => ({ ...prev, contracts: {} }))
         }
 
       } catch (error: any) {

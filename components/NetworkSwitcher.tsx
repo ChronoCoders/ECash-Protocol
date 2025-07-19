@@ -70,23 +70,63 @@ export default function NetworkSwitcher({
       const targetNetwork = getNetworkInfo(targetChainId)
       toast.info(`Switching to ${targetNetwork.name}...`)
 
-      const success = await switchNetwork(targetChainId)
-      
-      if (success) {
-        toast.success(`Successfully switched to ${targetNetwork.name}`)
+      // For localhost, provide specific instructions
+      if (targetChainId === 31337) {
+        toast.info("To connect to localhost, please manually add the network in MetaMask:")
+        toast.info("Network Name: Localhost, RPC URL: http://localhost:8545, Chain ID: 31337")
         
-        // Update config manager
-        configManager.updateChainId(targetChainId)
-        
-        // Notify parent component
-        if (onNetworkChanged) {
-          // Delay to allow network change to propagate
-          setTimeout(onNetworkChanged, 1000)
+        // Try to add the network first
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: '0x7a69', // 31337 in hex
+              chainName: 'Localhost',
+              rpcUrls: ['http://localhost:8545'],
+              nativeCurrency: {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                decimals: 18
+              }
+            }]
+          })
+          
+          toast.success("Localhost network added to MetaMask")
+        } catch (addError: any) {
+          if (addError.code === 4001) {
+            toast.warning("User rejected adding localhost network")
+          } else if (addError.code === -32602) {
+            // Network already exists, try to switch
+            try {
+              await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: '0x7a69' }]
+              })
+              toast.success("Switched to localhost network")
+            } catch (switchError) {
+              toast.error("Failed to switch to localhost. Please switch manually in MetaMask.")
+            }
+          }
         }
       } else {
-        throw new Error("Network switch failed")
+        const success = await switchNetwork(targetChainId)
+        
+        if (success) {
+          toast.success(`Successfully switched to ${targetNetwork.name}`)
+          
+          // Update config manager
+          configManager.updateChainId(targetChainId)
+          
+          // Notify parent component
+          if (onNetworkChanged) {
+            // Delay to allow network change to propagate
+            setTimeout(onNetworkChanged, 1000)
+          }
+        } else {
+          throw new Error("Network switch failed")
+        }
       }
-
+      
     } catch (error: any) {
       console.error("Network switch error:", error)
       
@@ -216,15 +256,15 @@ export default function NetworkSwitcher({
                 key={network.chainId}
                 onClick={() => handleNetworkSwitch(network.chainId)}
                 disabled={state.isSwitching || status.disabled}
-                className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
                   status.disabled
-                    ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                    : "bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                    ? "bg-gray-100 border-gray-300 cursor-not-allowed"
+                    : "bg-blue-50 border-blue-400 hover:border-blue-500 hover:bg-blue-100 shadow-sm"
                 } ${state.isSwitching ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-medium text-gray-900">{network.name}</div>
+                    <div className="font-semibold text-gray-900 text-lg">{recommended.name}</div>
                     <div className="text-sm text-gray-500">
                       Chain ID: {network.chainId} • {network.symbol}
                     </div>
@@ -241,6 +281,11 @@ export default function NetworkSwitcher({
     )
   }
 
+                    {recommended.chainId === 31337 && (
+                      <div className="mt-2 text-xs text-blue-600 bg-blue-100 rounded px-2 py-1 inline-block">
+                        💡 Make sure Hardhat node is running: npx hardhat node
+                      </div>
+                    )}
   return (
     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
       {/* Header */}
