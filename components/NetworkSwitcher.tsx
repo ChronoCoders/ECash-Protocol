@@ -347,11 +347,11 @@ export default function NetworkSwitcher({
                 status.disabled
                   ? "bg-gray-100 border-gray-200 cursor-not-allowed"
                   : "bg-blue-50 border-blue-200 hover:border-blue-300 hover:bg-blue-100"
-              } ${state.isSwitching ? "opacity-50 cursor-not-allowed" : ""}`}
+                  : "bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-medium text-gray-900">{recommended.name}</div>
+                  <div className="font-semibold text-gray-900 text-lg">{network.name}</div>
                   <div className="text-sm text-gray-500">
                     Chain ID: {recommended.chainId} • {recommended.symbol}
                     {recommended.faucetUrl && (
@@ -367,11 +367,11 @@ export default function NetworkSwitcher({
                         </a>
                       </span>
                     )}
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  {state.isSwitching && state.targetChainId === recommended.chainId && (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+                  )}
+                  {recommended.chainId === 31337 && (
+                    <div className="mt-2 text-xs text-blue-600 bg-blue-100 rounded px-2 py-1 inline-block">
+                      💡 Make sure Hardhat node is running: npx hardhat node
+                    </div>
                   )}
                   <div className={`text-sm font-medium ${status.color}`}>
                     {status.label}

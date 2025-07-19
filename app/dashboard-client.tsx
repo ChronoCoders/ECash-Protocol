@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 // Import fixed components
@@ -722,6 +723,9 @@ export default function DashboardClient() {
         draggable
         pauseOnHover
         theme="light"
+        toastClassName="relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer"
+        bodyClassName="flex text-sm font-white font-med block p-3"
+        progressClassName="fancy-progress-bar"
       />
     </div>
   )

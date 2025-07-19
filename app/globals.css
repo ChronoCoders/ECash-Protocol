@@ -10,6 +10,20 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Toast customizations */
+  .Toastify__toast-container {
+    z-index: 9999;
+  }
+  
+  .Toastify__toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fancy-progress-bar {
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  }
 }
 
 @layer base {
