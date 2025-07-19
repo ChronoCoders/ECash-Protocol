@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { ethers } from "ethers"
-import { config, getNetworkInfo } from "../lib/config"
+import { config, configManager, getNetworkInfo } from "../lib/config"
 
 interface NetworkStatusProps {
   provider: ethers.BrowserProvider | null
