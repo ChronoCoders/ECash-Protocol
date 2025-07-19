@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { toast } from "sonner"
+import { toast } from "react-toastify"
 import { ethers } from "ethers"
 
 interface ScenarioRunnerProps {

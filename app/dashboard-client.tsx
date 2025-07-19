@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "sonner"
-import { Toaster } from "sonner"
+import { toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 // Import fixed components
 import DeploymentManager from "@/components/DeploymentManager"
@@ -711,7 +712,17 @@ export default function DashboardClient() {
       </div>
 
       {/* Toast Container */}
-      <Toaster />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   )
 }

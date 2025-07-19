@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "sonner"
+import { toast } from "react-toastify"
 import { configManager, getNetworkInfo, type ContractAddresses } from "@/lib/config"
 
 interface DeploymentManagerProps {

@@ -1,5 +1,5 @@
-import SimpleDashboard from "./simple-dashboard"
+import DashboardClient from "./dashboard-client"
 
 export default function Page() {
-  return <SimpleDashboard />
+  return <DashboardClient />
 }
