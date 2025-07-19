@@ -321,25 +321,19 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
             🚀 Localhost Setup
           </div>
           <div className="text-xs text-blue-700 space-y-1">
-            <div>1. Start Hardhat node:</div>
+            <div><strong>1. Start Hardhat node (if not running):</strong></div>
             <div className="ml-2">
               <code className="bg-blue-200 px-1 rounded">npx hardhat node</code>
             </div>
-            <div>2. Add network to MetaMask:</div>
+            <div><strong>2. Add localhost network to MetaMask:</strong></div>
             <div className="ml-2 text-xs">
               <div>• Network Name: <code className="bg-blue-200 px-1 rounded">Localhost</code></div>
               <div>• RPC URL: <code className="bg-blue-200 px-1 rounded">http://127.0.0.1:8545</code></div>
               <div>• Chain ID: <code className="bg-blue-200 px-1 rounded">31337</code></div>
               <div>• Currency: <code className="bg-blue-200 px-1 rounded">ETH</code></div>
             </div>
-            <div>2. Add network to MetaMask:</div>
-            <div className="ml-2 text-xs">
-              <div>• Network Name: <code className="bg-blue-200 px-1 rounded">Localhost</code></div>
-              <div>• RPC URL: <code className="bg-blue-200 px-1 rounded">http://127.0.0.1:8545</code></div>
-              <div>• Chain ID: <code className="bg-blue-200 px-1 rounded">31337</code></div>
-              <div>• Currency: <code className="bg-blue-200 px-1 rounded">ETH</code></div>
-            </div>
-            <div>3. Deploy contracts using the deployment manager below</div>
+            <div><strong>3. Switch to localhost network in MetaMask</strong></div>
+            <div><strong>4. Deploy contracts using the deployment manager below</strong></div>
           </div>
         </div>
       )}

@@ -113,7 +113,10 @@ export default function DashboardClient() {
     if (typeof window === "undefined") return false
     
     if (!window.ethereum) {
-      toast.error("MetaMask not detected. Please install MetaMask to continue.")
+      toast.error("MetaMask not detected. Please install MetaMask to continue.", {
+        position: "top-right",
+        autoClose: 5000,
+      })
       return false
     }
     
@@ -189,13 +192,22 @@ export default function DashboardClient() {
       }))
 
       connectionAttempts.current = 0
-      toast.success(`Connected to ${account.slice(0, 6)}...${account.slice(-4)}`)
+      toast.success(`Connected to ${account.slice(0, 6)}...${account.slice(-4)}`, {
+        position: "top-right",
+        autoClose: 3000,
+      })
 
       if (networkMismatch) {
-        toast.warning(`Unsupported network (Chain ID: ${chainId}). Please switch to a supported network.`)
+        toast.warning(`Unsupported network (Chain ID: ${chainId}). Please switch to localhost (Chain ID: 31337) for testing.`, {
+          position: "top-right",
+          autoClose: 8000,
+        })
       } else {
         const currentNetwork = getNetworkInfo(chainId)
-        toast.success(`Connected to ${currentNetwork.name}`)
+        toast.success(`Connected to ${currentNetwork.name}`, {
+          position: "top-right",
+          autoClose: 3000,
+        })
       }
 
     } catch (error: any) {
