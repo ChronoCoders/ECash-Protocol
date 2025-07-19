@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { config } from "../lib/config"
+import { config } from "@/lib/config"
 
 interface FeatureFlagsProps {
   children: React.ReactNode

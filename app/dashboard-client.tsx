@@ -2,21 +2,20 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
-import { toast } from "react-toastify"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
 
 // Import fixed components
-import DeploymentManager from "../components/DeploymentManager"
-import NetworkStatus from "../components/NetworkStatus"
-import NetworkSwitcher from "../components/NetworkSwitcher"
-import RealtimeMetrics from "../components/RealtimeMetrics"
-import StressTestSuite from "../components/StressTestSuite"
-import ScenarioRunner from "../components/ScenarioRunner"
-import FeatureFlags from "../components/FeatureFlags"
+import DeploymentManager from "@/components/DeploymentManager"
+import NetworkStatus from "@/components/NetworkStatus"
+import NetworkSwitcher from "@/components/NetworkSwitcher"
+import RealtimeMetrics from "@/components/RealtimeMetrics"
+import StressTestSuite from "@/components/StressTestSuite"
+import ScenarioRunner from "@/components/ScenarioRunner"
+import FeatureFlags from "@/components/FeatureFlags"
 
 // Import configuration
-import { config, configManager, getNetworkInfo, isContractsDeployed } from "../lib/config"
+import { config, configManager, getNetworkInfo, isContractsDeployed } from "@/lib/config"
 
 interface ProtocolStatus {
   currentPrice: string
@@ -193,20 +192,17 @@ export default function DashboardClient() {
 
       connectionAttempts.current = 0
       toast.success(`Connected to ${account.slice(0, 6)}...${account.slice(-4)}`, {
-        position: "top-right",
-        autoClose: 3000,
+        duration: 3000,
       })
 
       if (networkMismatch) {
         toast.warning(`Unsupported network (Chain ID: ${chainId}). Please switch to localhost (Chain ID: 31337) for testing.`, {
-          position: "top-right",
-          autoClose: 8000,
+          duration: 8000,
         })
       } else {
         const currentNetwork = getNetworkInfo(chainId)
         toast.success(`Connected to ${currentNetwork.name}`, {
-          position: "top-right",
-          autoClose: 3000,
+          duration: 3000,
         })
       }
 
@@ -715,18 +711,7 @@ export default function DashboardClient() {
       </div>
 
       {/* Toast Container */}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <Toaster />
     </div>
   )
 }
