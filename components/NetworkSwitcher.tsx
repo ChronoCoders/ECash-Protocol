@@ -390,3 +390,9 @@ export default function NetworkSwitcher({
                 </button>
               )
             })}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
