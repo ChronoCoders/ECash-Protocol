@@ -30,9 +30,11 @@ const config: HardhatUserConfig = {
       },
     },
     localhost: {
-      url: "http://127.0.0.1:8545",
+      url: "http://localhost:8545",
       chainId: 31337,
       timeout: 60000,
+      gas: "auto",
+      gasPrice: "auto",
       accounts: {
         mnemonic: "test test test test test test test test test test test junk",
         count: 20,

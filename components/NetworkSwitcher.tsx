@@ -81,7 +81,7 @@ export default function NetworkSwitcher({
             params: [{
               chainId: '0x7a69', // 31337 in hex
               chainName: 'Localhost',
-              rpcUrls: ['http://127.0.0.1:8545'],
+              rpcUrls: ['http://127.0.0.1:8545', 'http://localhost:8545'],
               nativeCurrency: {
                 name: 'Ethereum',
                 symbol: 'ETH',
@@ -103,7 +103,7 @@ export default function NetworkSwitcher({
               })
               toast.success("Switched to localhost network")
             } catch (switchError) {
-              toast.error("Failed to switch to localhost. Please switch manually in MetaMask.")
+              toast.error("Failed to switch to localhost. Please ensure Hardhat node is running and switch manually in MetaMask.")
             }
           }
         }

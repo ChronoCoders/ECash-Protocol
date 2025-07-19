@@ -9,13 +9,73 @@ interface NetworkStatusProps {
   account: string
 }
 
+interface RpcDiagnostics {
+  url: string
+  status: 'checking' | 'success' | 'failed'
+  error?: string
+  responseTime?: number
+}
 export default function NetworkStatus({ provider, account }: NetworkStatusProps) {
   const [networkInfo, setNetworkInfo] = useState<any>(null)
   const [balance, setBalance] = useState<string>("0")
   const [blockNumber, setBlockNumber] = useState<number>(0)
   const [gasPrice, setGasPrice] = useState<string>("0")
   const [connectionError, setConnectionError] = useState<string | null>(null)
+  const [rpcDiagnostics, setRpcDiagnostics] = useState<RpcDiagnostics[]>([])
 
+  // Test RPC endpoints
+  const testRpcEndpoints = async () => {
+    const endpoints = [
+      'http://127.0.0.1:8545',
+      'http://localhost:8545',
+      'http://0.0.0.0:8545'
+    ]
+
+    const diagnostics: RpcDiagnostics[] = []
+
+    for (const url of endpoints) {
+      const diagnostic: RpcDiagnostics = { url, status: 'checking' }
+      diagnostics.push(diagnostic)
+      setRpcDiagnostics([...diagnostics])
+
+      try {
+        const startTime = Date.now()
+        
+        // Test with fetch first
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_blockNumber',
+            params: [],
+            id: 1
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.result) {
+            diagnostic.status = 'success'
+            diagnostic.responseTime = Date.now() - startTime
+          } else {
+            diagnostic.status = 'failed'
+            diagnostic.error = 'Invalid response'
+          }
+        } else {
+          diagnostic.status = 'failed'
+          diagnostic.error = `HTTP ${response.status}`
+        }
+      } catch (error: any) {
+        diagnostic.status = 'failed'
+        diagnostic.error = error.message
+      }
+
+      setRpcDiagnostics([...diagnostics])
+    }
+  }
   useEffect(() => {
     if (!provider) return
 
@@ -59,6 +119,8 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
         let errorMessage = "Failed to fetch network information"
         if (error.message.includes("could not detect network")) {
           errorMessage = "Could not detect network. Check RPC connection."
+          // Trigger RPC diagnostics when there's a connection issue
+          testRpcEndpoints()
         } else if (error.message.includes("network")) {
           errorMessage = "Network connection error. Please check your connection."
         }
@@ -94,17 +156,53 @@ export default function NetworkStatus({ provider, account }: NetworkStatusProps)
         </div>
         <p className="text-red-700 text-sm mb-3">{connectionError}</p>
         
+        {/* RPC Diagnostics */}
+        {rpcDiagnostics.length > 0 && (
+          <div className="bg-red-100 rounded-lg p-3 mb-3">
+            <h4 className="font-medium text-red-900 text-sm mb-2">RPC Endpoint Test Results:</h4>
+            <div className="space-y-1">
+              {rpcDiagnostics.map((diagnostic, index) => (
+                <div key={index} className="flex items-center justify-between text-xs">
+                  <code className="bg-red-200 px-1 rounded">{diagnostic.url}</code>
+                  <div className="flex items-center">
+                    {diagnostic.status === 'checking' && (
+                      <span className="text-blue-600">Testing...</span>
+                    )}
+                    {diagnostic.status === 'success' && (
+                      <span className="text-green-600">✓ Working ({diagnostic.responseTime}ms)</span>
+                    )}
+                    {diagnostic.status === 'failed' && (
+                      <span className="text-red-600">✗ {diagnostic.error}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="bg-red-100 rounded-lg p-3">
           <h4 className="font-medium text-red-900 text-sm mb-2">To connect to localhost:</h4>
           <ol className="text-red-800 text-xs space-y-1">
             <li>1. Start Hardhat node: <code className="bg-red-200 px-1 rounded">npx hardhat node</code></li>
             <li>2. Add localhost network to MetaMask:</li>
             <li className="ml-4">• Network Name: Localhost</li>
-            <li className="ml-4">• RPC URL: http://localhost:8545</li>
+            <li className="ml-4">• RPC URL: <code className="bg-red-200 px-1 rounded">http://127.0.0.1:8545</code> (try this first)</li>
+            <li className="ml-4">• Alternative: <code className="bg-red-200 px-1 rounded">http://localhost:8545</code></li>
             <li className="ml-4">• Chain ID: 31337</li>
             <li className="ml-4">• Currency Symbol: ETH</li>
             <li>3. Switch to localhost network in MetaMask</li>
+            <li>4. If still failing, try restarting MetaMask</li>
           </ol>
+          
+          <div className="mt-2 pt-2 border-t border-red-200">
+            <button
+              onClick={testRpcEndpoints}
+              className="bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700"
+            >
+              Test RPC Endpoints
+            </button>
+          </div>
         </div>
       </div>
     )
