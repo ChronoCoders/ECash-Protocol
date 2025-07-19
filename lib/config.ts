@@ -115,7 +115,7 @@ class ConfigManager {
         name: "Localhost",
         symbol: "ETH",
         explorer: "",
-        rpcUrl: "http://localhost:8545",
+        rpcUrl: "http://127.0.0.1:8545",
         testnet: true,
         chainId: 31337,
         blockTime: 2,
