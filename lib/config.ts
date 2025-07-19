@@ -1,27 +1,6 @@
 // Enhanced configuration management for the E-Cash Protocol Dashboard
 import { ethers } from "ethers"
 
-// Environment validation
-const validateEnvironment = () => {
-  const required = ['NEXT_PUBLIC_CHAIN_ID']
-  const missing = required.filter(key => !process.env[key] && typeof window === 'undefined')
-  
-  if (missing.length > 0) {
-    console.warn(`Missing environment variables: ${missing.join(', ')}`)
-  }
-}
-
-const _initialEnvValidation = () => {
-  const required = ['NEXT_PUBLIC_CHAIN_ID']
-  const missing = required.filter(key => !process.env[key] && typeof window === 'undefined')
-  
-  if (missing.length > 0) {
-    console.warn(`Missing environment variables: ${missing.join(', ')}`)
-  }
-}
-
-_initialEnvValidation()
-
 // Network configuration with comprehensive validation
 export interface NetworkConfig {
   name: string
