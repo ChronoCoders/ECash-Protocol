@@ -48,7 +48,6 @@ const nextConfig = {
       }
     }
     
-    // Add support for local development
     if (process.env.NODE_ENV === 'development') {
       config.watchOptions = {
         poll: 1000,
