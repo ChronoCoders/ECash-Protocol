@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ethers } from "ethers"
 import { toast } from "sonner"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "sonner"
 
 // Import fixed components
 import DeploymentManager from "@/components/DeploymentManager"
